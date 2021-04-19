@@ -22,6 +22,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import static javafx.scene.paint.Color.WHITE;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -37,7 +38,7 @@ public class FXMLDocumentController implements Initializable {
         
 
     private String selectedShape="LINE";
-    private Color selectedColor=Color.BLUE;
+    private Color selectedColor=Color.WHITE;
     double srtX=0, srtY=0,srtW=0, srtH=0;
     double srtArcWidth=20,srtArcHeight=20;
     double endX=0, endY=0, endW, endH;
@@ -69,6 +70,7 @@ public class FXMLDocumentController implements Initializable {
              case   "Rect": selectedShape="RECT";       break;
              case   "Circle": selectedShape="CIRCLE";   break;
              case   "Rounded Rec": selectedShape="ROUNDED_REC"; break;
+             case   "Erase": selectedShape="ERASER"; break;
          }
     }
 
@@ -80,6 +82,7 @@ public class FXMLDocumentController implements Initializable {
         
         
     }
+      
 @FXML
     private void startDraw(MouseEvent event) {
         endX=event.getX();
@@ -93,11 +96,16 @@ public class FXMLDocumentController implements Initializable {
           case "RECT":  gc.strokeRect(srtX,srtY,endX-srtX,endY-srtY); break;
           case "CIRCLE":  gc.strokeOval(srtX,srtY,endX-srtX,endY-srtY); break;
           case "ROUNDED_REC": gc.strokeRoundRect(srtX, srtY, endX-srtX, endY-srtY,srtArcWidth,srtArcHeight ); break;
-            
+          case "ERASER": gc.strokeLine(srtX,srtY,endX,endY);break;
         }
   
     }
-
+@FXML
+    private void SetErase(ActionEvent event) {
+       selectedColor=WHITE ;
+       GraphicsContext gc= mCanvas.getGraphicsContext2D();
+       gc.setLineWidth(100);
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }

@@ -10,12 +10,13 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="430.0" prefWidth="601.0" style="-fx-background-color:#FFFFFF ;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="basicpaintapp.FXMLDocumentController">
+<AnchorPane id="AnchorPane" style="-fx-background-color:#FFFFFF ;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="basicpaintapp.FXMLDocumentController">
    <children>
       <MenuBar prefHeight="29.0" prefWidth="723.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
                   <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
                   <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
               <MenuItem mnemonicParsing="false" text="Close" />
@@ -40,6 +41,7 @@
             <Button mnemonicParsing="false" onAction="#setShape" text="Circle" />
             <Button mnemonicParsing="false" onAction="#setShape" text="Rounded Rec" />
             <Button mnemonicParsing="false" onAction="#SetErase" text="Erase" />
+            <Button mnemonicParsing="false" onAction="#newcanvas" text="New Canvas" />
         </items>
       </ToolBar>
       <Canvas fx:id="mCanvas" height="443.0" layoutY="69.0" onMousePressed="#startShape" onMouseReleased="#startDraw" width="723.0" />

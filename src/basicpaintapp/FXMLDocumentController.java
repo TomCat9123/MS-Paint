@@ -10,17 +10,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import static javafx.scene.paint.Color.WHITE;
 import javafx.scene.shape.ArcType;
@@ -29,6 +35,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  *
@@ -48,7 +55,7 @@ public class FXMLDocumentController implements Initializable {
     private ColorPicker mColorPicker;
     private Group c;
     @FXML
-    private Canvas mCanvas;
+    public Canvas mCanvas;
     @FXML
     private Slider mSlider;
 
@@ -99,6 +106,51 @@ public class FXMLDocumentController implements Initializable {
           case "ERASER": gc.strokeLine(srtX,srtY,endX,endY);break;
         }
   
+    }
+    @FXML
+    public void newcanvas(ActionEvent e){
+        
+    TextField getCanvasWidth =new TextField(); 
+    getCanvasWidth.setPromptText("Width");
+    getCanvasWidth.setPrefWidth(150);
+    getCanvasWidth.setAlignment(Pos.CENTER);
+    
+    TextField getCanvasHeighth =new TextField(); 
+    getCanvasHeighth.setPromptText("Width");
+    getCanvasHeighth.setPrefWidth(150);
+    getCanvasHeighth.setAlignment(Pos.CENTER);
+    
+    Button createButton= new Button();
+    createButton.setText("Create Canvas");
+    
+    VBox vBox=new VBox();
+    vBox.setSpacing(5);
+    vBox.setAlignment(Pos.CENTER);
+    vBox.getChildren().addAll(getCanvasWidth,getCanvasHeighth,createButton);
+    
+    Stage createStage= new Stage ();
+    AnchorPane root= new AnchorPane();
+    root.setPrefWidth(200);
+    root.setPrefHeight(200);
+    root.getChildren().add(vBox);
+    
+    Scene CanvasScene =new Scene(root);
+    createStage.setTitle("Create Canvas");
+    createStage.setScene(CanvasScene);
+    createStage.show();
+    
+    createButton.setOnAction(new EventHandler<ActionEvent>(){
+    @Override
+    public void handle(ActionEvent event){double canvasWidthReccived=Double.parseDouble(getCanvasWidth.getText());
+                                          double canvasHeightReccived=Double.parseDouble(getCanvasHeighth.getText());
+                                          mCanvas=new Canvas();
+                                          mCanvas.setWidth(canvasWidthReccived);
+                                          mCanvas.setHeight(canvasHeightReccived);
+                                          vBox.getChildren().add(mCanvas);
+                                          createStage.close();
+            }
+    } );
+    
     }
 @FXML
     private void SetErase(ActionEvent event) {

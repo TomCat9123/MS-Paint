@@ -43,6 +43,7 @@
             <Button mnemonicParsing="false" onAction="#SetErase" text="Erase" />
             <Button mnemonicParsing="false" onAction="#newcanvas" text="New Canvas" />
             <Button mnemonicParsing="false" onAction="#setShape" text="Curve" />
+            <Button mnemonicParsing="false" onAction="#setShape" text="Brush" />
         </items>
       </ToolBar>
       <Canvas fx:id="mCanvas" height="443.0" layoutY="69.0" onMousePressed="#startShape" onMouseReleased="#startDraw" width="723.0" />

@@ -5,6 +5,7 @@
  */
 package basicpaintapp;
 
+import java.awt.Point;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,7 @@ public class FXMLDocumentController implements Initializable {
              case   "Rounded Rec": selectedShape="ROUNDED_REC"; break;
              case   "Erase": selectedShape="ERASER"; break;
              case   "Curve": selectedShape="CURVE";break;
+             case   "Brush": selectedShape="BRUSH"; break;
          }
     }
 
@@ -105,7 +107,8 @@ public class FXMLDocumentController implements Initializable {
           case "CIRCLE":  gc.strokeOval(srtX,srtY,endX-srtX,endY-srtY); break;
           case "ROUNDED_REC": gc.strokeRoundRect(srtX, srtY, endX-srtX, endY-srtY,srtArcWidth,srtArcHeight ); break;
           case "ERASER": gc.strokeLine(srtX,srtY,endX,endY);break;
-          case "CURVE":  gc.strokeArc(srtX, srtY, srtX+srtY,srtX+srtY,  endX-srtX, endY-srtY, ArcType.OPEN);
+          case "CURVE":  gc.strokeArc(srtX, srtY, endX,endY,  endX+srtX, endY-srtY, ArcType.OPEN);break;
+          case "BRUSH": gc.strokeOval(srtX,srtY,endX-srtX,endY-srtY);break;
         }
   
     }
@@ -159,6 +162,14 @@ public class FXMLDocumentController implements Initializable {
        selectedColor=WHITE ;
        GraphicsContext gc= mCanvas.getGraphicsContext2D();
        gc.setLineWidth(100);
+    }
+ @FXML
+    private void Brush(ActionEvent event){
+     GraphicsContext gc= mCanvas.getGraphicsContext2D();
+        gc.setStroke(selectedColor);
+        for (int i = 0; i < i; i++) {
+         gc.strokeOval(srtX,srtY,endX-srtX,endY-srtY);
+     }
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {

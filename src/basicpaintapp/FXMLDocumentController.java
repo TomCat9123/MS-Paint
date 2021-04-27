@@ -49,7 +49,7 @@ public class FXMLDocumentController implements Initializable {
     double srtX=0, srtY=0,srtW=0, srtH=0;
     double srtArcWidth=20,srtArcHeight=20;
     double endX=0, endY=0, endW, endH;
-    
+    double length=20, startAngle=20, arcAngle=20;
     private Label label;
     @FXML
     private ColorPicker mColorPicker;
@@ -78,6 +78,7 @@ public class FXMLDocumentController implements Initializable {
              case   "Circle": selectedShape="CIRCLE";   break;
              case   "Rounded Rec": selectedShape="ROUNDED_REC"; break;
              case   "Erase": selectedShape="ERASER"; break;
+             case   "Curve": selectedShape="CURVE";break;
          }
     }
 
@@ -104,6 +105,7 @@ public class FXMLDocumentController implements Initializable {
           case "CIRCLE":  gc.strokeOval(srtX,srtY,endX-srtX,endY-srtY); break;
           case "ROUNDED_REC": gc.strokeRoundRect(srtX, srtY, endX-srtX, endY-srtY,srtArcWidth,srtArcHeight ); break;
           case "ERASER": gc.strokeLine(srtX,srtY,endX,endY);break;
+          case "CURVE":  gc.strokeArc(srtX, srtY, srtX+srtY,srtX+srtY,  endX-srtX, endY-srtY, ArcType.OPEN);
         }
   
     }

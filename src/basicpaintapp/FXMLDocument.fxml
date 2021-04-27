@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" style="-fx-background-color:#FFFFFF ;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="basicpaintapp.FXMLDocumentController">
    <children>
@@ -36,13 +37,16 @@
       </MenuBar>
       <ToolBar layoutY="29.0" prefHeight="40.0" prefWidth="717.0">
         <items>
-          <Button mnemonicParsing="false" onAction="#setShape" text="Line" />
-            <Button mnemonicParsing="false" onAction="#setShape" text="Rect" />
-            <Button mnemonicParsing="false" onAction="#setShape" text="Circle" />
-            <Button mnemonicParsing="false" onAction="#setShape" text="Rounded Rec" />
-            <Button mnemonicParsing="false" onAction="#SetErase" text="Erase" />
-            <Button mnemonicParsing="false" onAction="#newcanvas" text="New Canvas" />
-            <Button mnemonicParsing="false" onAction="#setShape" text="Curve" />
+          <Button fx:id="Line" mnemonicParsing="false" onAction="#setShape" text="Line" />
+            <Button fx:id="Rect" mnemonicParsing="false" onAction="#setShape" text="Rect" />
+            <Button fx:id="Circle" mnemonicParsing="false" onAction="#setShape" text="Circle" />
+            <Button fx:id="RoundedRec" mnemonicParsing="false" onAction="#setShape" text="Rounded Rec" />
+            <Button fx:id="Erase" mnemonicParsing="false" onAction="#SetErase" text="Erase" />
+            <Button fx:id="NewCanvas" mnemonicParsing="false" onAction="#newcanvas" text="New Canvas" />
+            <Button fx:id="Curve" mnemonicParsing="false" onAction="#setShape" text="Curve" />
+            <Button fx:id="Brush" mnemonicParsing="false" onAction="#setBrush" text="Brush" />
+            <Slider fx:id="bSlider" />
+            <Text fx:id="BrushSlider" strokeType="OUTSIDE" strokeWidth="0.0" text="Brush Slider" />
         </items>
       </ToolBar>
       <Canvas fx:id="mCanvas" height="443.0" layoutY="69.0" onMousePressed="#startShape" onMouseReleased="#startDraw" width="723.0" />
@@ -50,6 +54,7 @@
          <items>
             <ColorPicker fx:id="mColorPicker" onAction="#selectColor" prefHeight="27.0" prefWidth="172.0" />
             <Slider fx:id="mSlider" max="5" />
+            <Text fx:id="LineSlider" strokeType="OUTSIDE" strokeWidth="0.0" text="Line Slider" />
          </items>
       </ToolBar>
    </children>

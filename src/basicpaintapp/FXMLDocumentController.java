@@ -58,6 +58,28 @@ public class FXMLDocumentController implements Initializable {
     public Canvas mCanvas;
     @FXML
     private Slider mSlider;
+    @FXML
+    private Slider bSlider;
+    @FXML
+    private Text BrushSlider;
+    @FXML
+    private Text LineSlider;
+    @FXML
+    private Button Line;
+    @FXML
+    private Button Rect;
+    @FXML
+    private Button Circle;
+    @FXML
+    private Button RoundedRec;
+    @FXML
+    private Button Erase;
+    @FXML
+    private Button NewCanvas;
+    @FXML
+    private Button Curve;
+    @FXML
+    private Button Brush;
 
 
     @FXML
@@ -162,11 +184,36 @@ public class FXMLDocumentController implements Initializable {
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
     }
 
     @FXML
     private void selectColor(ActionEvent event) {
         selectedColor = mColorPicker.getValue();
+        
+    }
+
+    @FXML
+    private void setBrush(ActionEvent event) {
+       
+         GraphicsContext gc = mCanvas.getGraphicsContext2D();
+        mCanvas.setOnMouseDragged(e -> {
+        double size = Double.valueOf(bSlider.getValue());
+        srtX=e.getX();
+        srtY=e.getY();
+        
+        double x = (double) (e.getX() -  size / 2);
+        double y = (double) (e.getY() -  size / 2);
+       
+     
+        
+      
+         gc.setFill(mColorPicker.getValue());
+         gc.fillRect(x,y, size, size);
+               
+        
+        });
+        
         
     }
     

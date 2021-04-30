@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="430.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="basicpaintapp1.FXMLDocumentController">
+   <children>
+      <MenuBar prefHeight="29.0" prefWidth="601.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <ToolBar layoutY="29.0" prefHeight="40.0" prefWidth="601.0">
+        <items>
+          <Button mnemonicParsing="false" onAction="#setShape" text="Line" />
+            <Button mnemonicParsing="false" onAction="#setShape" text="Rect" />
+            <Button mnemonicParsing="false" onAction="#setShape" text="Circle" />
+            <Separator prefHeight="28.0" prefWidth="80.0" />
+            <ColorPicker fx:id="mColorPicker" onAction="#selectColor" prefHeight="27.0" prefWidth="172.0" />
+            <Slider fx:id="mSlider" max="5" />
+        </items>
+      </ToolBar>
+      <Canvas fx:id="mCanvas" height="365.0" layoutY="69.0" onMousePressed="#startShape" onMouseReleased="#startDraw" width="601.0" />
+   </children>
+</AnchorPane>

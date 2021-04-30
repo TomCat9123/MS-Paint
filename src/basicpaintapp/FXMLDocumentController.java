@@ -5,11 +5,14 @@
  */
 package basicpaintapp;
 
-import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import static javafx.application.Platform.exit;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -24,6 +28,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -36,7 +41,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -59,14 +66,72 @@ public class FXMLDocumentController implements Initializable {
     public Canvas mCanvas;
     @FXML
     private Slider mSlider;
+    @FXML
+    private Slider bSlider;
+    @FXML
+    private Text BrushSlider;
+    @FXML
+    private Text LineSlider;
+    @FXML
+    private Button Line;
+    @FXML
+    private Button Rect;
+    @FXML
+    private Button Circle;
+    @FXML
+    private Button RoundedRec;
+    @FXML
+    private Button Erase;
+    @FXML
+    private Button NewCanvas;
+    @FXML
+    private Button Curve;
+    @FXML
+    private Button Brush;
 
 
     @FXML
     private void openFile(ActionEvent event) {
+        //gets & creates the stage to open the save dialog window from the mslider
+        Stage s = (Stage) mSlider.getScene().getWindow();
+
+        //takes the snapshot of the canvas
+        //WritableImage image = mCanvas.snapshot(new SnapshotParameters(), null);
+
+        //the fileChooser window and the extension (PNG) that the snapshot can be saved as
+        FileChooser fs = new FileChooser();
+        fs.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
+        fs.setTitle("Save Window");
+
+        //Allows for the fileChoose dialog window to be shown.
+        File file = fs.showOpenDialog(s);
     }
 
     @FXML
     private void saveFile(ActionEvent event) {
+         //gets & creates the stage to open the save dialog window from the mslider
+        Stage s = (Stage) mSlider.getScene().getWindow();
+
+        //takes the snapshot of the canvas
+        WritableImage image = mCanvas.snapshot(new SnapshotParameters(), null);
+
+        //the fileChooser window and the extension (PNG) that the snapshot can be saved as
+        FileChooser fs = new FileChooser();
+        fs.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
+        fs.setTitle("Save Window");
+
+        //Allows for the fileChoose dialog window to be shown.
+        File file = fs.showSaveDialog(s);
+
+        try 
+        {
+           if(file != null){
+                ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+           }
+        } catch (IOException ex)
+        {
+            System.out.println(ex.toString());
+        }
     }
 
     @FXML
@@ -80,7 +145,7 @@ public class FXMLDocumentController implements Initializable {
              case   "Rounded Rec": selectedShape="ROUNDED_REC"; break;
              case   "Erase": selectedShape="ERASER"; break;
              case   "Curve": selectedShape="CURVE";break;
-             case   "Brush": selectedShape="BRUSH"; break;
+             case "setBrush": selectedShape="setBrush";break;
          }
     }
 
@@ -107,8 +172,10 @@ public class FXMLDocumentController implements Initializable {
           case "CIRCLE":  gc.strokeOval(srtX,srtY,endX-srtX,endY-srtY); break;
           case "ROUNDED_REC": gc.strokeRoundRect(srtX, srtY, endX-srtX, endY-srtY,srtArcWidth,srtArcHeight ); break;
           case "ERASER": gc.strokeLine(srtX,srtY,endX,endY);break;
-          case "CURVE":  gc.strokeArc(srtX, srtY, endX,endY,  endX+srtX, endY-srtY, ArcType.OPEN);break;
-          case "BRUSH": gc.strokeOval(srtX,srtY,endX-srtX,endY-srtY);break;
+          case "CURVE":  gc.strokeArc(srtX, srtY, srtX+srtY,srtX+srtY,  endX-srtX, endY-srtY, ArcType.OPEN);break;
+       
+        
+       
         }
   
     }
@@ -163,21 +230,34 @@ public class FXMLDocumentController implements Initializable {
        GraphicsContext gc= mCanvas.getGraphicsContext2D();
        gc.setLineWidth(100);
     }
- @FXML
-    private void Brush(ActionEvent event){
-     GraphicsContext gc= mCanvas.getGraphicsContext2D();
-        gc.setStroke(selectedColor);
-        for (int i = 0; i < i; i++) {
-         gc.strokeOval(srtX,srtY,endX-srtX,endY-srtY);
-     }
-    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
     }
 
     @FXML
     private void selectColor(ActionEvent event) {
         selectedColor = mColorPicker.getValue();
+        
+    }
+
+    @FXML
+    private void setBrush(ActionEvent event) {
+       
+         GraphicsContext gc = mCanvas.getGraphicsContext2D();
+        mCanvas.setOnMouseDragged(e -> {
+        double size = Double.valueOf(bSlider.getValue());
+        srtX=e.getX();
+        srtY=e.getY();
+        
+        double x = (double) (e.getX() -  size / 2);
+        double y = (double) (e.getY() -  size / 2);
+       
+         gc.setFill(mColorPicker.getValue());
+         gc.fillRect(x,y, size, size);
+        });
+        
+     
         
     }
     

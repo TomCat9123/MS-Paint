@@ -89,7 +89,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button Brush;
 
+@FXML 
+private void SetClose(ActionEvent event){
+exit();
 
+}
     @FXML
     private void openFile(ActionEvent event) {
         //gets & creates the stage to open the save dialog window from the mslider

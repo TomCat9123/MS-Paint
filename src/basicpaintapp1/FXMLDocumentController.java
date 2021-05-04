@@ -158,7 +158,7 @@ public class FXMLDocumentController implements Initializable {
         selectedColor = mColorPicker.getValue();
     }
 
-    //creates a new file by clearing the canvas of the previouse drawings.
+    //creates a new file by clearing the canvas of the previous drawings.
     @FXML
     private void newFile(ActionEvent event) {
         double cWidth = mCanvas.getWidth();

@@ -29,6 +29,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -86,6 +88,8 @@ public class FXMLDocumentController implements Initializable {
     private Button NewCanvas;
     @FXML
     private Button Curve;
+    @FXML
+    private Button Text;
     @FXML
     private Button Brush;
 
@@ -177,6 +181,7 @@ exit();
           case "ROUNDED_REC": gc.strokeRoundRect(srtX, srtY, endX-srtX, endY-srtY,srtArcWidth,srtArcHeight ); break;
           case "ERASER": gc.strokeLine(srtX,srtY,endX,endY);break;
           case "CURVE":  gc.strokeArc(srtX, srtY, srtX+srtY,srtX+srtY,  endX-srtX, endY-srtY, ArcType.OPEN);break;
+          case "Text": createText(); break;
        
         
        
@@ -264,5 +269,40 @@ exit();
      
         
     }
+    @FXML
+    void setText(ActionEvent event) {
+       selectedShape="Text";
+       
+    }
+    @FXML
+    private void createText() {
+        String txt;
+        TextField tf2;
+        tf2 = new TextField("");
+        tf2.setMinWidth(300);
+        tf2.setAlignment(Pos.CENTER);
+        Pane gd = new Pane(tf2);
+        Stage createText= new Stage();
+        Scene TextScene =new Scene(gd, 300, 30);
+        createText.setScene(TextScene);
+        createText.show();
+        
+        tf2.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                int b = 0;
+                if( event.getCode() == KeyCode.ENTER ) {
+                    b = 1;
+                }
+                if (b==1){
+                GraphicsContext gc= mCanvas.getGraphicsContext2D();
+                gc.strokeText(tf2.getText(), srtX, srtY);
+                createText.close();
+                }
+            }
+        }
+        );
+    }
+
     
 }

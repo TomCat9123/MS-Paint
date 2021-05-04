@@ -44,6 +44,7 @@
             <Button fx:id="Erase" mnemonicParsing="false" onAction="#SetErase" text="Erase" />
             <Button fx:id="NewCanvas" mnemonicParsing="false" onAction="#newcanvas" text="New Canvas" />
             <Button fx:id="Curve" mnemonicParsing="false" onAction="#setShape" text="Curve" />
+            <Button fx:id="Text" mnemonicParsing="false" onAction="#setText" text="Text" />
             <Button fx:id="Brush" mnemonicParsing="false" onAction="#setBrush" text="Brush" />
             <Slider fx:id="bSlider" />
             <Text fx:id="BrushSlider" strokeType="OUTSIDE" strokeWidth="0.0" text="Brush Slider" />

@@ -37,10 +37,6 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/**
- *
- * @author MoaathAlrajab
- */
 public class FXMLDocumentController implements Initializable {
         
 
@@ -80,6 +76,8 @@ public class FXMLDocumentController implements Initializable {
     private Button Curve;
     @FXML
     private Button Brush;
+    @FXML
+    private Button Fill;
 
 
     @FXML
@@ -117,6 +115,7 @@ public class FXMLDocumentController implements Initializable {
     private void startDraw(MouseEvent event) {
         endX=event.getX();
         endY=event.getY();
+        
         GraphicsContext gc= mCanvas.getGraphicsContext2D();
         gc.setStroke(selectedColor);
         System.out.println(""+selectedColor);
@@ -212,6 +211,24 @@ public class FXMLDocumentController implements Initializable {
          gc.fillRect(x,y, size, size);
                
         
+        });
+        
+        
+    }
+
+    @FXML
+    private void PaintFill(ActionEvent event) {
+        GraphicsContext gc = mCanvas.getGraphicsContext2D();
+        Fill.setOnAction(e -> {
+        double x = Rect.getLayoutX();
+        double y = Rect.getLayoutY();
+        gc.setFill(mColorPicker.getValue());
+        switch(selectedShape){
+         case "ROUNDED_REC": gc.fillRoundRect(srtX, srtY, endX-srtX, endY-srtY,srtArcWidth,srtArcHeight );
+         case "CIRCLE": gc.fillOval(srtX,srtY,endX-srtX,endY-srtY); break;
+         case "RECT": gc.fillRect(srtX,srtY,endX-srtX,endY-srtY); break;
+         case "CURVE": gc.fillArc(srtX, srtY, srtX+srtY,srtX+srtY,  endX-srtX, endY-srtY, ArcType.OPEN);
+        }
         });
         
         

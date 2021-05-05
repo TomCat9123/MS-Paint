@@ -35,7 +35,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ToolBar layoutY="29.0" prefHeight="40.0" prefWidth="717.0">
+      <ToolBar layoutY="29.0" prefHeight="40.0" prefWidth="723.0">
         <items>
           <Button fx:id="Line" mnemonicParsing="false" onAction="#setShape" text="Line" />
             <Button fx:id="Rect" mnemonicParsing="false" onAction="#setShape" text="Rect" />
@@ -55,6 +55,7 @@
             <ColorPicker fx:id="mColorPicker" onAction="#selectColor" prefHeight="27.0" prefWidth="172.0" />
             <Slider fx:id="mSlider" max="5" />
             <Text fx:id="LineSlider" strokeType="OUTSIDE" strokeWidth="0.0" text="Line Slider" />
+            <Button fx:id="Fill" mnemonicParsing="false" onAction="#PaintFill" text="Fill" />
          </items>
       </ToolBar>
    </children>

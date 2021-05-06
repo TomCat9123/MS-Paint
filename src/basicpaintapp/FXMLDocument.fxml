@@ -25,7 +25,14 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
+              <MenuItem mnemonicParsing="false" onAction="#undoFuncs" text="Undo" />
               <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="View">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#zoomIn" text="Zoom In" />
+                  <MenuItem mnemonicParsing="false" onAction="#zoomOut" text="Zoom Out" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

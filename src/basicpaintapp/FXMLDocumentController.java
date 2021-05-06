@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import static javafx.application.Platform.exit;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -28,6 +29,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -56,6 +58,8 @@ public class FXMLDocumentController implements Initializable {
 
     private String selectedShape="LINE";
     private Color selectedColor=Color.WHITE;
+    private double scale = 0.1;
+    Stack<Image> undoStack = new Stack<>();
     double srtX=0, srtY=0,srtW=0, srtH=0;
     double tempX = 0, tempY = 0;
     int count = 0;
@@ -118,7 +122,22 @@ exit();
         fs.setTitle("Save Window");
 
         //Allows for the fileChoose dialog window to be shown.
-        File file = fs.showOpenDialog(s);
+        File file = fs.showOpenDialog(s);   
+
+        try 
+        {
+           if(file != null){
+               double cWidth = mCanvas.getWidth();
+               double cHeight = mCanvas.getHeight();
+               String imagePath = (file.toURI().toString());
+               Image image = new Image(imagePath);
+               mCanvas.getGraphicsContext2D().drawImage(image, 0, 0, cWidth, cHeight);
+           }
+        } catch ( Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
+
     }
 
     @FXML
@@ -186,6 +205,7 @@ exit();
       
 @FXML
     private void startDraw(MouseEvent event) {
+        pushUndo();
         endX=event.getX();
         endY=event.getY();
         GraphicsContext gc= mCanvas.getGraphicsContext2D();
@@ -360,6 +380,30 @@ exit();
         
         
     }
-
     
+
+     @FXML
+    private void undoFuncs(ActionEvent event) {
+        if(!undoStack.empty()){
+            Image undoImage = undoStack.pop();
+            mCanvas.getGraphicsContext2D().drawImage(undoImage, 0, 0);
+        }
+    }
+
+    @FXML
+    private void zoomIn(ActionEvent event) {
+        
+        mCanvas.setScaleX(mCanvas.getScaleX() + scale);
+    }
+
+    @FXML
+    private void zoomOut(ActionEvent event) {
+        
+        mCanvas.setScaleX(mCanvas.getScaleX() - scale);
+    }
+
+    private void pushUndo(){
+        Image snapshot = mCanvas.snapshot(null, null);
+        undoStack.push(snapshot);
+    }
 }

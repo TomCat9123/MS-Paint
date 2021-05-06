@@ -17,7 +17,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" onAction="#newFile" text="New" />
                   <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
                   <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
               <MenuItem mnemonicParsing="false" onAction="#SetClose" text="Close" />
@@ -42,6 +42,7 @@
             <Button fx:id="Circle" mnemonicParsing="false" onAction="#setShape" text="Circle" />
             <Button fx:id="RoundedRec" mnemonicParsing="false" onAction="#setShape" text="Rounded Rec" />
             <Button fx:id="Erase" mnemonicParsing="false" onAction="#SetErase" text="Erase" />
+            <Button fx:id="Polygon" mnemonicParsing="false" onAction="#setPolygon" text="P" />
             <Button fx:id="NewCanvas" mnemonicParsing="false" onAction="#newcanvas" text="New Canvas" />
             <Button fx:id="Curve" mnemonicParsing="false" onAction="#setShape" text="Curve" />
             <Button fx:id="Text" mnemonicParsing="false" onAction="#setText" text="Text" />
@@ -56,6 +57,7 @@
             <ColorPicker fx:id="mColorPicker" onAction="#selectColor" prefHeight="27.0" prefWidth="172.0" />
             <Slider fx:id="mSlider" max="5" />
             <Text fx:id="LineSlider" strokeType="OUTSIDE" strokeWidth="0.0" text="Line Slider" />
+            <Button fx:id="Fill" mnemonicParsing="false" onAction="#PaintFill" text="Fill" />
          </items>
       </ToolBar>
    </children>

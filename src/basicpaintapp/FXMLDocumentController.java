@@ -57,6 +57,8 @@ public class FXMLDocumentController implements Initializable {
     private String selectedShape="LINE";
     private Color selectedColor=Color.WHITE;
     double srtX=0, srtY=0,srtW=0, srtH=0;
+    double tempX = 0, tempY = 0;
+    int count = 0;
     double srtArcWidth=20,srtArcHeight=20;
     double endX=0, endY=0, endW, endH;
     double length=20, startAngle=20, arcAngle=20;
@@ -84,6 +86,8 @@ public class FXMLDocumentController implements Initializable {
     private Button RoundedRec;
     @FXML
     private Button Erase;
+     @FXML
+    private Button Polygon;
     @FXML
     private Button NewCanvas;
     @FXML
@@ -92,6 +96,8 @@ public class FXMLDocumentController implements Initializable {
     private Button Text;
     @FXML
     private Button Brush;
+    @FXML
+    private Button Fill;
 
 @FXML 
 private void SetClose(ActionEvent event){
@@ -141,10 +147,22 @@ exit();
             System.out.println(ex.toString());
         }
     }
+    
+    //creates a new file by clearing the canvas of the previous drawings.
+    @FXML
+    private void newFile(ActionEvent event) {
+        double cWidth = mCanvas.getWidth();
+        double cHeight = mCanvas.getHeight();
+        System.out.println(cWidth);
+        System.out.println(cHeight);
+        GraphicsContext gc= mCanvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, cWidth, cHeight);
+    }
 
     @FXML
     private void setShape(ActionEvent event) {
         Button btn =(Button)event.getSource();
+        count = 0;
          
          switch(btn.getText()){
              case   "Line": selectedShape="LINE";       break;
@@ -182,6 +200,7 @@ exit();
           case "ERASER": gc.strokeLine(srtX,srtY,endX,endY);break;
           case "CURVE":  gc.strokeArc(srtX, srtY, srtX+srtY,srtX+srtY,  endX-srtX, endY-srtY, ArcType.OPEN);break;
           case "Text": createText(); break;
+          case "POLYGON": startPolygon(); break;
        
         
        
@@ -190,7 +209,7 @@ exit();
     }
     @FXML
     public void newcanvas(ActionEvent e){
-        
+    count = 0;
     TextField getCanvasWidth =new TextField(); 
     getCanvasWidth.setPromptText("Width");
     getCanvasWidth.setPrefWidth(150);
@@ -235,6 +254,7 @@ exit();
     }
 @FXML
     private void SetErase(ActionEvent event) {
+       count = 0;
        selectedColor=WHITE ;
        GraphicsContext gc= mCanvas.getGraphicsContext2D();
        gc.setLineWidth(100);
@@ -252,8 +272,8 @@ exit();
 
     @FXML
     private void setBrush(ActionEvent event) {
-       
-         GraphicsContext gc = mCanvas.getGraphicsContext2D();
+        count = 0;
+        GraphicsContext gc = mCanvas.getGraphicsContext2D();
         mCanvas.setOnMouseDragged(e -> {
         double size = Double.valueOf(bSlider.getValue());
         srtX=e.getX();
@@ -270,7 +290,8 @@ exit();
         
     }
     @FXML
-    void setText(ActionEvent event) {
+    private void setText(ActionEvent event) {
+       count = 0;
        selectedShape="Text";
        
     }
@@ -302,6 +323,42 @@ exit();
             }
         }
         );
+    }
+    @FXML
+    private void setPolygon(ActionEvent event) {
+        selectedShape = "POLYGON";
+    }
+    
+    private void startPolygon(){
+        GraphicsContext gc = mCanvas.getGraphicsContext2D();
+        if (count == 0 ){
+            gc.strokeLine(srtX,srtY,endX,endY);
+            count = 1;
+        }
+        else{
+            gc.strokeLine(tempX,tempY,endX,endY);
+        }
+        tempX = endX;
+        tempY = endY;
+        
+    }
+
+    @FXML
+    private void PaintFill(ActionEvent event) {
+        GraphicsContext gc = mCanvas.getGraphicsContext2D();
+        Fill.setOnAction(e -> {
+        double x = Rect.getLayoutX();
+        double y = Rect.getLayoutY();
+        gc.setFill(mColorPicker.getValue());
+        switch(selectedShape){
+         case "ROUNDED_REC": gc.fillRoundRect(srtX, srtY, endX-srtX, endY-srtY,srtArcWidth,srtArcHeight );
+         case "CIRCLE": gc.fillOval(srtX,srtY,endX-srtX,endY-srtY); break;
+         case "RECT": gc.fillRect(srtX,srtY,endX-srtX,endY-srtY); break;
+         case "CURVE": gc.fillArc(srtX, srtY, srtX+srtY,srtX+srtY,  endX-srtX, endY-srtY, ArcType.OPEN);
+        }
+        });
+        
+        
     }
 
     

@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -41,10 +43,12 @@ public class FXMLDocumentController implements Initializable {
 
     private String selectedShape = "LINE";
     private Color selectedColor = Color.BLUE;
+    private double scale;
     double srtX = 0, srtY = 0;
     double endX = 0, endY = 0;
-
+    Stack<Image> undoStack = new Stack<>();
     private Label label;
+    
     @FXML
     private ColorPicker mColorPicker;
     private Group c;
@@ -72,6 +76,22 @@ public class FXMLDocumentController implements Initializable {
         
         //Allows for the fileChoose dialog window to be shown.
         File file = fs.showOpenDialog(s);
+          
+
+        try 
+        {
+           if(file != null){
+               double cWidth = mCanvas.getWidth();
+               double cHeight = mCanvas.getHeight();
+               String imagePath = (file.toURI().toString());
+               Image image = new Image(imagePath);
+               mCanvas.getGraphicsContext2D().drawImage(image, 0, 0, cWidth, cHeight);
+           }
+        } catch ( Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
+
     }
 
     @FXML
@@ -128,6 +148,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void startDraw(MouseEvent event) {
+        pushUndo();
         endX = event.getX();
         endY = event.getY();
         gc = mCanvas.getGraphicsContext2D();
@@ -168,4 +189,34 @@ public class FXMLDocumentController implements Initializable {
         gc.clearRect(0, 0, cWidth, cHeight);
     }
 
+    @FXML
+    private void exitFunc(ActionEvent event) {
+        System.exit(0);
+    }
+
+    @FXML
+    private void undoFuncs(ActionEvent event) {
+        if(!undoStack.empty()){
+            Image undoImage = undoStack.pop();
+            mCanvas.getGraphicsContext2D().drawImage(undoImage, 0, 0);
+        }
+    }
+
+    @FXML
+    private void zoomIn(ActionEvent event) {
+        scale += 0.1;
+        mCanvas.setScaleX(mCanvas.getScaleX() + scale);
+    }
+
+    @FXML
+    private void zoomOut(ActionEvent event) {
+        scale += 0.1;
+        mCanvas.setScaleX(mCanvas.getScaleX() + scale);
+    }
+
+    private void pushUndo(){
+        Image snapshot = mCanvas.snapshot(null, null);
+        undoStack.push(snapshot);
+    }
+    
 }

@@ -20,16 +20,18 @@
                   <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
                   <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
               <MenuItem mnemonicParsing="false" onAction="#newFile" text="New" />
+                  <MenuItem mnemonicParsing="false" onAction="#exitFunc" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#undoFuncs" text="Undo" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="View">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#zoomIn" text="Zoom In" />
+                  <MenuItem mnemonicParsing="false" onAction="#zoomOut" text="Zoom Out" />
             </items>
           </Menu>
         </menus>
